@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<html> 
+<head> 
+    <META http-equiv=Content-Type content="text/html; CHARSET=iso-8859-1"> 
+    <title>Signature Lotus Notes</title> 
+<style type="text/css"> 
+    body { 
+        font-family:Verdana; 
+        font-size: 12px; 
+        color: #49403B; 
+        background: #FFFFFF; 
+        text-align: center; 
+        } 
+    hr { 
+        color: blue; 
+        } 
+    fieldset { 
+        padding: 10px; 
+        } 
+    button { 
+     font-family:Verdana; 
+     font-size: 14px; 
+     /*filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=Blue, EndColorStr=#ffffff); */
+     height: 30px; 
+     width: 150px; 
+     font-weight: bold; 
+  } 
+     table { 
+        border-collapse: collapse; 
+        border-width: thin; 
+        border-color: black; 
+        border-style: groove; 
+        font-size: 10px; 
+        } 
+    td { 
+        border-width: 1px; 
+        padding: 4px; 
+        border-style: solid; 
+        border-color: black; 
+        } 
+    .hdr { 
+        background-color: #fff; 
+        color: black; 
+        } 
+    .warn { 
+        color: red; 
+        text-align: center; 
+        } 
+    .success { 
+        color: green; 
+        font-weight: color; 
+        } 
+</style> 
+<script language="vbscript" type="text/vbscript"> 
+    Sub Window_Onload() 
+        'Center_HTA 500, 600'
+        Center_HTA 700, 600
+        spn_DataArea.InnerHTML = "<font class='warn'><b>WARNING.</b> If you have accidentally arrived at this screen you MUST click the Abort button now</font>" 
+    End Sub 
+    
+    Sub Center_HTA( widthX, heightY ) 
+        self.ResizeTo widthX, heightY 
+        self.MoveTo (screen.Width - widthX)/2, (screen.Height - heightY)/2 
+    End Sub
+    
+    Sub btn_Abort_onClick()
+
+        EcritDansFichier (GetCurrDir() & "\signature.html"), spn_DataArea.InnerHTML
+
+    End Sub 
+    
+    Sub btn_Finish_onClick()
+
+        Const CONTENU_FICHIER1 = "<font size='2' face='sans Serif par défaut'>MESSAGE</font><br>"
+        Const CONTENU_FICHIER2 = "<font size='2' face='Century Gothic'>______________________________________________________<br>"
+        Const CONTENU_FICHIER3 = "<br>"
+        Const CONTENU_FICHIER4 = "<B><FONT color='#3687D7'>PRENOM_NOM</B></font><br>"
+        Const CONTENU_FICHIER5 = "<font size='1' face='Century Gothic'>"
+        Const CONTENU_FICHIER6 = "<FONT color='#3687D7'>FONCTION</font><br>"
+        Const CONTENU_FICHIER7 = "<FONT color='#3687D7'>SERVICE</font><br>"
+        Const CONTENU_FICHIER8 = "<a href='http://www.pcas.com'><img src='J:\Usine\MODELES\logo\logo-pcas-petit.gif' alt='' border='0'></a><br>"
+        Const CONTENU_FICHIER9 = "<font size='1' face='Century Gothic'>"
+        Const CONTENU_FICHIER10 = "Route d'Avignon<br>"
+        Const CONTENU_FICHIER11 = "30390 ARAMON - France<br>"
+        Const CONTENU_FICHIER12 = "www.pcas.com</font><br>"
+        Const CONTENU_FICHIER13 = "<font size='1' face='Century Gothic'>"
+        Const CONTENU_FICHIER14 = "<br>"
+        Const CONTENU_FICHIER15 = "<B>Tel. : +33 (0)4 66 57 01 01</B><br>"
+        Const CONTENU_FICHIER16 = "<B>Tel. direct : TEL_DIRECT</B><br>"
+        Const CONTENU_FICHIER17 = "<B>Mobile : TEL_MOBILE</B><br>"
+
+
+        Dim strPrenom, strNom, strFonction, strService, strTelephone, strMobile, strMessage, strContenuFichier
+
+        strPrenom    = txt_Prenom.Value
+        strNom       = txt_Nom.Value
+        strFonction  = txt_Fonction.Value
+        strService   = txt_service.Value
+        strTelephone = txt_Telephone.Value
+        strMobile    = txt_Mobile.Value
+        strMessage   = txt_Message.Value
+
+        strContenuFichier = CONTENU_FICHIER1 & vbNewLine & _
+                            CONTENU_FICHIER2 & vbNewLine & _
+                            CONTENU_FICHIER3 & vbNewLine & _
+                            CONTENU_FICHIER4 & vbNewLine & _
+                            CONTENU_FICHIER5 & vbNewLine & _
+                            CONTENU_FICHIER6 & vbNewLine & _
+                            CONTENU_FICHIER7 & vbNewLine & _
+                            CONTENU_FICHIER8 & vbNewLine & _
+                            CONTENU_FICHIER9 & vbNewLine & _
+                            CONTENU_FICHIER10 & vbNewLine & _
+                            CONTENU_FICHIER11 & vbNewLine & _
+                            CONTENU_FICHIER12 & vbNewLine & _
+                            CONTENU_FICHIER13 & vbNewLine & _
+                            CONTENU_FICHIER14 & vbNewLine & _
+                            CONTENU_FICHIER15 & vbNewLine & _
+                            CONTENU_FICHIER16 & vbNewLine & _
+                            CONTENU_FICHIER17
+
+        
+        
+        strContenuFichier = Replace(strContenuFichier, "PRENOM_NOM", strPrenom & " " & Ucase(strNom))
+        strContenuFichier = Replace(strContenuFichier, "FONCTION", strFonction)
+        strContenuFichier = Replace(strContenuFichier, "SERVICE", strService)
+        if strTelephone <> "" Then
+          strContenuFichier = Replace(strContenuFichier, "TEL_DIRECT", strTelephone)
+        End If
+        if strMobile <> "" Then
+          strContenuFichier = Replace(strContenuFichier, "TEL_MOBILE", strMobile)
+        End If
+        if strMessage <> "" Then
+          strContenuFichier = Replace(strContenuFichier, "MESSAGE", strMessage)
+        End If
+
+        spn_DataArea.InnerHTML = strContenuFichier
+  
+    End Sub 
+
+    '------------------------------------------------------------------------------'
+' Nom                          : EcritDansFichier.'
+' strCheminCompletFichierTrace : Chemin complet du fichier.'
+' strTrace                     : Ce qu'il faut écrire dans le fichier.''
+'------------------------------------------------------------------------------'
+Public Sub EcritDansFichier(strCheminCompletFichierTrace, strTrace)
+    On Error Resume Next
+    Dim objFSO, objFile
+
+    Set objFSO = CreateObject("Scripting.FileSystemObject")
+    Set objFile = objFSO.OpenTextFile(strCheminCompletFichierTrace, 8, True, -1) ' 8 = ForAppending, True pour créer le fichier s'il n'existe pas, -1 pour écrire au format Unicode'
+
+    If Err.Number <> 0 Then
+        WScript.Echo "Erreur lors de l'appel de la fonction OpenTextFile." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
+        Err.Clear
+    Else
+        ' On écrit dans le fichier'
+        objFile.WriteLine strTrace
+
+        If Err.Number <> 0 Then
+            WScript.Echo "Erreur lors de l'appel de la fonction WriteLine." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
+            Err.Clear
+        End If
+
+        ' On ferme le fichier'
+        objFile.Close
+        Set objFile = Nothing
+    End If
+
+    Set objFSO = Nothing
+
+End Sub
+
+
+'############################################################################### 
+'# Name: GetCurrDir 
+'# Purpose: Capture and set def to folder where this HTA exists. 
+'############################################################################### 
+Function GetCurrDir() 
+   Set objFSO = CreateObject("Scripting.FileSystemObject") 
+   Set WshShell = CreateObject("WScript.Shell") 
+   '### document.location.href always returns the HTML rendering of own fully-qualified 
+   '### location: "file:///" followed by fully-qualified path to curr file, but elements   
+   '### are separated by FORWARD slashes and spaces are rendered as "%20". 
+   '### Capture it, strip off leading data, replace slashes and escape sequences. 
+   strHtmlLocnVal = document.location.href 
+   strThisHTA = Replace(Right(strHtmlLocnVal, Len(strHtmlLocnVal) - 8), "/", "\") 
+   strThisHTA = UnEscape(strThisHTA) 
+   '### Bind FSO to the file and capture parent directory. 
+   Set objThisFile = objFSO.GetFile(strThisHTA) 
+   objParentDir = objThisFile.ParentFolder 
+   Set objFolder = objFSO.GetFolder(objParentDir) 
+   '### To preclude problems with folder names that contain spaces, e.g. 
+   '### "Documents and Settings" or "Program Files", return the 8.3 name. 
+   GetCurrDir = objFolder.ShortPath 
+   ' WshShell.CurrentDirectory = objCurrDir
+' ### End Sub SetCurrDir
+End Function 
+
+
+'------------------------------------------------------------------------------'
+' Nom              : CheminDossierParent.'
+' strCheminComplet : chemin complet du fichier.'
+' retour           : Le chemin du dossier parent terminé par un "\".'
+'------------------------------------------------------------------------------'
+Public Function CheminDossierParent(strCheminComplet)
+    On Error Resume Next
+    Dim objFSO, strCheminDossierParent, fin
+
+    Set objFSO = CreateObject("Scripting.FileSystemObject")
+    strCheminDossierParent = objFSO.GetParentFolderName(strCheminComplet)
+    ' Pas besoin de vérification d'erreur car GetParentFolderName ne travaille'
+    ' pas sur des fichiers mais sur une chaîne de caractère.''
+
+    Set objFSO = Nothing
+    ' On ajoute une barre oblique inversée au cas où il n'y en aurait pas''
+    fin = Right(strCheminDossierParent, 1)
+    if fin = "\" Then
+        CheminDossierParent = strCheminDossierParent
+    Else
+        CheminDossierParent = strCheminDossierParent  & "\"
+    End If
+End Function
+
+    
+</script> 
+
+<hta:application 
+     applicationname="granta" 
+     border="dialog" 
+     borderstyle="normal" 
+     caption="yes" 
+     contextmenu="yes" 
+     icon="no.ico" 
+     maximizebutton="yes" 
+     minimizebutton="yes" 
+     navigable="yes" 
+     scroll="yes" 
+     selection="yes" 
+     showintaskbar="yes" 
+     singleinstance="yes" 
+     sysmenu="yes" 
+     version="1.0" 
+     windowstate="normal" 
+> 
+</head> 
+<body> 
+    <h1>Signature Lotus Notes</h1> 
+    <hr> 
+    <fieldset> 
+        <legend>Informations contenues dans la signature</legend> 
+        <table> 
+            <tr> 
+                <td class="hdr">Prénom :</td> 
+                <td><input type=text id="txt_Prenom"></td> 
+            </tr> 
+            <tr> 
+                <td class="hdr">Nom :</td> 
+                <td><input type=text id="txt_Nom"></td>
+            </tr>
+            <tr>
+                <td class="hdr">Fonction :</td> 
+                <td><input type=text id="txt_Fonction"></td>
+            </tr>
+            <tr> 
+                <td class="hdr">Service :</td> 
+                <td><input type=text id="txt_Service"></td>
+            </tr>
+            <tr> 
+                <td class="hdr">Téléphone :</td> 
+                <td><input type=text id="txt_Telephone">De la forme : +33 (0)4 66 57 01 01</td>
+            </tr>
+            <tr> 
+                <td class="hdr">Mobile :</td> 
+                <td><input type=text id="txt_Mobile">De la forme : +33 (0)4 66 57 01 01</td>
+            </tr>
+            <tr> 
+                <td class="hdr">Message :</td> 
+                <td><input type=text id="txt_Message"></td>
+            </tr>
+        </table> 
+    </fieldset> 
+    <br> 
+    <br> 
+    <button accesskey="F" type="submit" id="btn_Finish"><U>C</U>réer</button> 
+    <button accesskey="A" type="submit" id="btn_Abort"><U>E</U>xporter</button> 
+    <br> 
+    <br> 
+    <span id="spn_DataArea"></span> 
+</body> 
+</html>

@@ -71,15 +71,15 @@
     
     Sub btn_Finish_onClick()
 
-        Const CONTENU_FICHIER1 = "<font size='2' face='sans Serif par défaut'>MESSAGE</font><br>"
-        Const CONTENU_FICHIER2 = "<font size='2' face='Century Gothic'>______________________________________________________<br>"
-        Const CONTENU_FICHIER3 = "<br>"
-        Const CONTENU_FICHIER4 = "<B><FONT color='#3687D7'>PRENOM_NOM</B></font><br>"
-        Const CONTENU_FICHIER5 = "<font size='1' face='Century Gothic'>"
-        Const CONTENU_FICHIER6 = "<FONT color='#3687D7'>FONCTION</font><br>"
-        Const CONTENU_FICHIER7 = "<FONT color='#3687D7'>SERVICE</font><br>"
-        Const CONTENU_FICHIER8 = "<a href='http://www.pcas.com'><img src='J:\Usine\MODELES\logo\logo-pcas-petit.gif' alt='' border='0'></a><br>"
-        Const CONTENU_FICHIER9 = "<font size='1' face='Century Gothic'>"
+        Const CONTENU_FICHIER1  = "<font size='2' face='sans Serif par défaut'>MESSAGE</font><br>"
+        Const CONTENU_FICHIER2  = "<font size='2' face='Century Gothic'>______________________________________________________<br>"
+        Const CONTENU_FICHIER3  = "<br>"
+        Const CONTENU_FICHIER4  = "<B><FONT color='#3687D7'>PRENOM_NOM</B></font><br>"
+        Const CONTENU_FICHIER5  = "<font size='1' face='Century Gothic'>"
+        Const CONTENU_FICHIER6  = "<FONT color='#3687D7'>FONCTION</font><br>"
+        Const CONTENU_FICHIER7  = "<FONT color='#3687D7'>SERVICE</font><br>"
+        Const CONTENU_FICHIER8  = "<a href='http://www.pcas.com'><img src='J:\Usine\MODELES\logo\logo-pcas-petit.gif' alt='' border='0'></a><br>"
+        Const CONTENU_FICHIER9  = "<font size='1' face='Century Gothic'>"
         Const CONTENU_FICHIER10 = "Route d'Avignon<br>"
         Const CONTENU_FICHIER11 = "30390 ARAMON - France<br>"
         Const CONTENU_FICHIER12 = "www.pcas.com</font><br>"
@@ -92,45 +92,45 @@
 
         Dim strPrenom, strNom, strFonction, strService, strTelephone, strMobile, strMessage, strContenuFichier
 
-        strPrenom    = txt_Prenom.Value
-        strNom       = txt_Nom.Value
-        strFonction  = txt_Fonction.Value
-        strService   = txt_service.Value
-        strTelephone = txt_Telephone.Value
-        strMobile    = txt_Mobile.Value
-        strMessage   = txt_Message.Value
+        strPrenom               = txt_Prenom.Value
+        strNom                  = txt_Nom.Value
+        strFonction             = txt_Fonction.Value
+        strService              = txt_service.Value
+        strTelephone            = txt_Telephone.Value
+        strMobile               = txt_Mobile.Value
+        strMessage              = txt_Message.Value
 
-        strContenuFichier = CONTENU_FICHIER1 & vbNewLine & _
-                            CONTENU_FICHIER2 & vbNewLine & _
-                            CONTENU_FICHIER3 & vbNewLine & _
-                            CONTENU_FICHIER4 & vbNewLine & _
-                            CONTENU_FICHIER5 & vbNewLine & _
-                            CONTENU_FICHIER6 & vbNewLine & _
-                            CONTENU_FICHIER7 & vbNewLine & _
-                            CONTENU_FICHIER8 & vbNewLine & _
-                            CONTENU_FICHIER9 & vbNewLine & _
-                            CONTENU_FICHIER10 & vbNewLine & _
-                            CONTENU_FICHIER11 & vbNewLine & _
-                            CONTENU_FICHIER12 & vbNewLine & _
-                            CONTENU_FICHIER13 & vbNewLine & _
-                            CONTENU_FICHIER14 & vbNewLine & _
-                            CONTENU_FICHIER15 & vbNewLine & _
-                            CONTENU_FICHIER16 & vbNewLine & _
-                            CONTENU_FICHIER17
+        strContenuFichier       = CONTENU_FICHIER1 & vbNewLine & _
+                                  CONTENU_FICHIER2 & vbNewLine & _
+                                  CONTENU_FICHIER3 & vbNewLine & _
+                                  CONTENU_FICHIER4 & vbNewLine & _
+                                  CONTENU_FICHIER5 & vbNewLine & _
+                                  CONTENU_FICHIER6 & vbNewLine & _
+                                  CONTENU_FICHIER7 & vbNewLine & _
+                                  CONTENU_FICHIER8 & vbNewLine & _
+                                  CONTENU_FICHIER9 & vbNewLine & _
+                                  CONTENU_FICHIER10 & vbNewLine & _
+                                  CONTENU_FICHIER11 & vbNewLine & _
+                                  CONTENU_FICHIER12 & vbNewLine & _
+                                  CONTENU_FICHIER13 & vbNewLine & _
+                                  CONTENU_FICHIER14 & vbNewLine & _
+                                  CONTENU_FICHIER15 & vbNewLine & _
+                                  CONTENU_FICHIER16 & vbNewLine & _
+                                  CONTENU_FICHIER17
 
         
         
-        strContenuFichier = Replace(strContenuFichier, "PRENOM_NOM", strPrenom & " " & Ucase(strNom))
-        strContenuFichier = Replace(strContenuFichier, "FONCTION", strFonction)
-        strContenuFichier = Replace(strContenuFichier, "SERVICE", strService)
+        strContenuFichier      = Replace(strContenuFichier, "PRENOM_NOM", strPrenom & " " & Ucase(strNom))
+        strContenuFichier      = Replace(strContenuFichier, "FONCTION", strFonction)
+        strContenuFichier      = Replace(strContenuFichier, "SERVICE", strService)
         if strTelephone <> "" Then
-          strContenuFichier = Replace(strContenuFichier, "TEL_DIRECT", strTelephone)
+          strContenuFichier    = Replace(strContenuFichier, "TEL_DIRECT", strTelephone)
         End If
         if strMobile <> "" Then
-          strContenuFichier = Replace(strContenuFichier, "TEL_MOBILE", strMobile)
+          strContenuFichier    = Replace(strContenuFichier, "TEL_MOBILE", strMobile)
         End If
         if strMessage <> "" Then
-          strContenuFichier = Replace(strContenuFichier, "MESSAGE", strMessage)
+          strContenuFichier    = Replace(strContenuFichier, "MESSAGE", strMessage)
         End If
 
         spn_DataArea.InnerHTML = strContenuFichier
@@ -138,88 +138,64 @@
     End Sub 
 
     '------------------------------------------------------------------------------'
-' Nom                          : EcritDansFichier.'
-' strCheminCompletFichierTrace : Chemin complet du fichier.'
-' strTrace                     : Ce qu'il faut écrire dans le fichier.''
-'------------------------------------------------------------------------------'
-Public Sub EcritDansFichier(strCheminCompletFichierTrace, strTrace)
-    On Error Resume Next
-    Dim objFSO, objFile
-
-    Set objFSO = CreateObject("Scripting.FileSystemObject")
-    Set objFile = objFSO.OpenTextFile(strCheminCompletFichierTrace, 8, True, -1) ' 8 = ForAppending, True pour créer le fichier s'il n'existe pas, -1 pour écrire au format Unicode'
-
-    If Err.Number <> 0 Then
-        WScript.Echo "Erreur lors de l'appel de la fonction OpenTextFile." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
-        Err.Clear
-    Else
-        ' On écrit dans le fichier'
-        objFile.WriteLine strTrace
-
+    ' Nom                          : EcritDansFichier.'
+    ' strCheminCompletFichierTrace : Chemin complet du fichier.'
+    ' strTrace                     : Ce qu'il faut écrire dans le fichier.''
+    '------------------------------------------------------------------------------'
+    Public Sub EcritDansFichier(strCheminCompletFichierTrace, strTrace)
+        On Error Resume Next
+        Dim objFSO, objFile
+    
+        Set objFSO = CreateObject("Scripting.FileSystemObject")
+        Set objFile = objFSO.OpenTextFile(strCheminCompletFichierTrace, 8, True, -1) ' 8 = ForAppending, True pour créer le fichier s'il n'existe pas, -1 pour  écrire au format Unicode'
+    
         If Err.Number <> 0 Then
-            WScript.Echo "Erreur lors de l'appel de la fonction WriteLine." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
+            WScript.Echo "Erreur lors de l'appel de la fonction OpenTextFile." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
             Err.Clear
+        Else
+            ' On écrit dans le fichier'
+            objFile.WriteLine strTrace
+    
+            If Err.Number <> 0 Then
+                WScript.Echo "Erreur lors de l'appel de la fonction WriteLine." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
+                Err.Clear
+            End If
+    
+            ' On ferme le fichier'
+            objFile.Close
+            Set objFile = Nothing
         End If
-
-        ' On ferme le fichier'
-        objFile.Close
-        Set objFile = Nothing
-    End If
-
-    Set objFSO = Nothing
-
-End Sub
+    
+        Set objFSO = Nothing
+    
+    End Sub
 
 
-'############################################################################### 
-'# Name: GetCurrDir 
-'# Purpose: Capture and set def to folder where this HTA exists. 
-'############################################################################### 
-Function GetCurrDir() 
-   Set objFSO = CreateObject("Scripting.FileSystemObject") 
-   Set WshShell = CreateObject("WScript.Shell") 
-   '### document.location.href always returns the HTML rendering of own fully-qualified 
-   '### location: "file:///" followed by fully-qualified path to curr file, but elements   
-   '### are separated by FORWARD slashes and spaces are rendered as "%20". 
-   '### Capture it, strip off leading data, replace slashes and escape sequences. 
-   strHtmlLocnVal = document.location.href 
-   strThisHTA = Replace(Right(strHtmlLocnVal, Len(strHtmlLocnVal) - 8), "/", "\") 
-   strThisHTA = UnEscape(strThisHTA) 
-   '### Bind FSO to the file and capture parent directory. 
-   Set objThisFile = objFSO.GetFile(strThisHTA) 
-   objParentDir = objThisFile.ParentFolder 
-   Set objFolder = objFSO.GetFolder(objParentDir) 
-   '### To preclude problems with folder names that contain spaces, e.g. 
-   '### "Documents and Settings" or "Program Files", return the 8.3 name. 
-   GetCurrDir = objFolder.ShortPath 
-   ' WshShell.CurrentDirectory = objCurrDir
-' ### End Sub SetCurrDir
-End Function 
+    '------------------------------------------------------------------------------'
+    ' Nom                          : GetCurrDir.'
+    ' Description                  : Capture and set def to folder where this HTA exists.'
+    '------------------------------------------------------------------------------' 
+    Function GetCurrDir() 
 
+       Set objFSO = CreateObject("Scripting.FileSystemObject") 
+       Set WshShell = CreateObject("WScript.Shell") 
+       '### document.location.href always returns the HTML rendering of own fully-qualified '
+       '### location: "file:///" followed by fully-qualified path to curr file, but elements'   
+       '### are separated by FORWARD slashes and spaces are rendered as "%20". '
+       '### Capture it, strip off leading data, replace slashes and escape sequences. '
+       strHtmlLocnVal = document.location.href 
+       strThisHTA = Replace(Right(strHtmlLocnVal, Len(strHtmlLocnVal) - 8), "/", "\") 
+       strThisHTA = UnEscape(strThisHTA) 
+       '### Bind FSO to the file and capture parent directory.'" 
+       Set objThisFile = objFSO.GetFile(strThisHTA) 
+       objParentDir = objThisFile.ParentFolder 
+       Set objFolder = objFSO.GetFolder(objParentDir) 
+       '### To preclude problems with folder names that contain spaces, e.g. '
+       '### "Documents and Settings" or "Program Files", return the 8.3 name. '
+       GetCurrDir = objFolder.ShortPath 
+       ' WshShell.CurrentDirectory = objCurrDir'
 
-'------------------------------------------------------------------------------'
-' Nom              : CheminDossierParent.'
-' strCheminComplet : chemin complet du fichier.'
-' retour           : Le chemin du dossier parent terminé par un "\".'
-'------------------------------------------------------------------------------'
-Public Function CheminDossierParent(strCheminComplet)
-    On Error Resume Next
-    Dim objFSO, strCheminDossierParent, fin
-
-    Set objFSO = CreateObject("Scripting.FileSystemObject")
-    strCheminDossierParent = objFSO.GetParentFolderName(strCheminComplet)
-    ' Pas besoin de vérification d'erreur car GetParentFolderName ne travaille'
-    ' pas sur des fichiers mais sur une chaîne de caractère.''
-
-    Set objFSO = Nothing
-    ' On ajoute une barre oblique inversée au cas où il n'y en aurait pas''
-    fin = Right(strCheminDossierParent, 1)
-    if fin = "\" Then
-        CheminDossierParent = strCheminDossierParent
-    Else
-        CheminDossierParent = strCheminDossierParent  & "\"
-    End If
-End Function
+    End Function 
 
     
 </script> 

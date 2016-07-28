@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<html> 
+<head> 
+    <META http-equiv=Content-Type content="text/html; CHARSET=iso-8859-1"> 
+    <title>GRANTA</title> 
+<style type="text/css"> 
+    body { 
+        font-family:Verdana; 
+        font-size: 12px; 
+        color: #49403B; 
+        background: #FFFFFF; 
+        text-align: center; 
+        } 
+    hr { 
+        color: blue; 
+        } 
+    fieldset { 
+        padding: 10px; 
+        } 
+    button { 
+     font-family:Verdana; 
+     font-size: 14px; 
+     /*filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=Blue, EndColorStr=#ffffff); */
+     height: 30px; 
+     width: 150px; 
+     font-weight: bold; 
+  } 
+     table { 
+        border-collapse: collapse; 
+        border-width: thin; 
+        border-color: black; 
+        border-style: groove; 
+        font-size: 10px; 
+        } 
+    td { 
+        border-width: 1px; 
+        padding: 4px; 
+        border-style: solid; 
+        border-color: black; 
+        } 
+    .hdr { 
+        background-color: #fff; 
+        color: white; 
+        } 
+    .warn { 
+        color: red; 
+        text-align: center; 
+        } 
+    .success { 
+        color: green; 
+        font-weight: color; 
+        } 
+</style> 
+<script language="vbscript" type="text/vbscript"> 
+    Sub Window_Onload() 
+        'Center_HTA 500, 600'
+        Center_HTA 700, 600
+        spn_DataArea.InnerHTML = "<font class='warn'><b>WARNING.</b> If you have accidentally arrived at this screen you MUST click the Abort button now</font>" 
+    End Sub 
+    
+    Sub Center_HTA( widthX, heightY ) 
+        self.ResizeTo widthX, heightY 
+        self.MoveTo (screen.Width - widthX)/2, (screen.Height - heightY)/2 
+    End Sub
+    
+    Sub btn_Abort_onClick()
+
+        EcritDansFichier (GetCurrDir() & "\Historique_des_acces.txt"), spn_DataArea.InnerHTML
+
+    End Sub 
+    
+    Sub btn_Finish_onClick()
+
+        Const N_DATE_REPERE     = 42304
+        Const DATE_REPERE       = "27/10/2015"
+        Const REQUETE_SQL       = "SELECT TIMELOG32.DESCRIPTN, TIMELOG32.FORENAME, TIMELOG32.CARDHOLDER, (cast(TIMELOG32.LOGDATE as datetime)-2) as LOGDATE, TIMELOG32.LOGTIME, TIMELOG32.CARDNO, USER32.ID FROM Granta.dbo.TIMELOG32 TIMELOG32, Granta.dbo.USER32 USER32 WHERE TIMELOG32.CARDHOLDER = USER32.NAME AND TIMELOG32.FORENAME = USER32.FIRSTNAME AND (TIMELOG32.LOGDATE>42488 AND USER32.NAME = 'BOISSONNET' AND USER32.FIRSTNAME = 'Bruno');"
+        Const INFOS_CONNEXION   = "DSN=granta;UID=sa;PWD=;Database=granta"
+        
+        Dim strPrenom, strNom, strDateDebutHisto
+        Dim dateRepere, dateDebutHisto, nbJours, nSQLDate, strRequeteSQL
+
+        strPrenom               = txt_Prenom.Value
+        strNom                  = txt_Nom.Value
+        strDateDebutHisto       = txt_DateDebutHisto.Value
+
+        dateRepere              = DateValue(DATE_REPERE)
+        dateDebutHisto          = DateValue(strDateDebutHisto)        
+        nbJours                 = DateDiff("d", dateRepere, dateDebutHisto)
+        nSQLDate                = N_DATE_REPERE + nbJours
+              
+        strRequeteSQL           = Replace(REQUETE_SQL, "Bruno", strPrenom)
+        strRequeteSQL           = Replace(strRequeteSQL, "BOISSONNET", Ucase(strNom))
+        strRequeteSQL           = Replace(strRequeteSQL, "42488", nSQLDate)
+
+        spn_DataArea.InnerHTML  = LanceRequeteSQL(INFOS_CONNEXION, strRequeteSQL)
+  
+    End Sub 
+
+    Function LanceRequeteSQL(strConnexion, strRequeteSQL)
+
+      On Error Resume Next
+    
+      Dim Connection
+      Dim Recordset
+      Dim strLine, strResultat
+      
+      
+      Set Connection = CreateObject("ADODB.Connection")
+      Set Recordset  = CreateObject("ADODB.Recordset")
+      
+      
+      Connection.Open strConnexion
+      If Err.Number <> 0 Then
+        strResultat = "Erreur lors de l'appel de la fonction Open (Numéro: " & Err.Number & ", Description: " &  Err.   Description & ", Infos de connexion : " & strConnexion & ")"
+        Err.Clear
+      Else
+      
+      
+        
+        Recordset.Open strRequeteSQL,Connection
+        If Err.Number <> 0 Then
+          strResultat = "Erreur lors de l'appel de la fonction Open (Numéro: " & Err.Number & ", Description: " &  Err. Description & ", Infos de connexion : " & strConnexion & ", Requête SQL : " & strRequeteSQL & ")"
+          Err.Clear
+        Else
+      
+          If Recordset.EOF Then
+            strResultat = "No records returned."
+          Else
+    
+            strResultat = "<br>" 'vbNewLine'
+            
+            Dim elt, strLigne
+            strLigne = ""
+            For each elt in Recordset.Fields
+              strLigne = strLigne & elt.name & ";"
+            Next
+            strResultat = strResultat & strLigne & "<br>" 'vbNewLine'
+            strLigne = ""
+            
+            Do While NOT Recordset.Eof
+        
+              For each elt in Recordset.Fields
+                strLigne = strLigne & elt.value & ";"
+              Next
+              
+              strResultat = strResultat & strLigne & "<br>" 'vbNewLine'
+              
+              strLigne = ""
+        
+              Recordset.MoveNext
+            Loop
+      
+          End If
+        
+        End If
+    
+      End If
+      
+      Recordset.Close
+      Set Recordset=nothing
+      Connection.Close
+      Set Connection=nothing
+    
+      LanceRequeteSQL = strResultat
+    
+    End Function
+
+        '------------------------------------------------------------------------------'
+    ' Nom                          : EcritDansFichier.'
+    ' strCheminCompletFichierTrace : Chemin complet du fichier.'
+    ' strTrace                     : Ce qu'il faut écrire dans le fichier.''
+    '------------------------------------------------------------------------------'
+    Public Sub EcritDansFichier(strCheminCompletFichierTrace, strTrace)
+        On Error Resume Next
+        Dim objFSO, objFile
+    
+        Set objFSO = CreateObject("Scripting.FileSystemObject")
+        Set objFile = objFSO.OpenTextFile(strCheminCompletFichierTrace, 8, True, -1) ' 8 = ForAppending, True pour créer le fichier s'il n'existe pas, -1 pour  écrire au format Unicode'
+    
+        If Err.Number <> 0 Then
+            WScript.Echo "Erreur lors de l'appel de la fonction OpenTextFile." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
+            Err.Clear
+        Else
+            ' On écrit dans le fichier'
+            objFile.WriteLine strTrace
+    
+            If Err.Number <> 0 Then
+                WScript.Echo "Erreur lors de l'appel de la fonction WriteLine." & vbNewLine & " (Numéro: " & Err.Number & ", Description: " & Err.Description & ")"
+                Err.Clear
+            End If
+    
+            ' On ferme le fichier'
+            objFile.Close
+            Set objFile = Nothing
+        End If
+    
+        Set objFSO = Nothing
+    
+    End Sub
+
+
+    '------------------------------------------------------------------------------'
+    ' Nom                          : GetCurrDir.'
+    ' Description                  : Capture and set def to folder where this HTA exists.'
+    '------------------------------------------------------------------------------' 
+    Function GetCurrDir() 
+
+       Set objFSO = CreateObject("Scripting.FileSystemObject") 
+       Set WshShell = CreateObject("WScript.Shell") 
+       '### document.location.href always returns the HTML rendering of own fully-qualified '
+       '### location: "file:///" followed by fully-qualified path to curr file, but elements'   
+       '### are separated by FORWARD slashes and spaces are rendered as "%20". '
+       '### Capture it, strip off leading data, replace slashes and escape sequences. '
+       strHtmlLocnVal = document.location.href 
+       strThisHTA = Replace(Right(strHtmlLocnVal, Len(strHtmlLocnVal) - 8), "/", "\") 
+       strThisHTA = UnEscape(strThisHTA) 
+       '### Bind FSO to the file and capture parent directory.'" 
+       Set objThisFile = objFSO.GetFile(strThisHTA) 
+       objParentDir = objThisFile.ParentFolder 
+       Set objFolder = objFSO.GetFolder(objParentDir) 
+       '### To preclude problems with folder names that contain spaces, e.g. '
+       '### "Documents and Settings" or "Program Files", return the 8.3 name. '
+       GetCurrDir = objFolder.ShortPath 
+       ' WshShell.CurrentDirectory = objCurrDir'
+    
+    End Function
+
+</script> 
+
+<hta:application 
+     applicationname="granta" 
+     border="dialog" 
+     borderstyle="normal" 
+     caption="yes" 
+     contextmenu="yes" 
+     icon="no.ico" 
+     maximizebutton="yes" 
+     minimizebutton="yes" 
+     navigable="yes" 
+     scroll="yes" 
+     selection="yes" 
+     showintaskbar="yes" 
+     singleinstance="yes" 
+     sysmenu="yes" 
+     version="1.0" 
+     windowstate="normal" 
+> 
+</head> 
+<body> 
+    <h1>Historique Granta</h1> 
+    <hr> 
+    <fieldset> 
+        <legend>Informations de recherche</legend> 
+        <table> 
+            <tr> 
+                <td class="hdr">Prénom :</td> 
+                <td><input type=text id="txt_Prenom">Bruno</td> 
+            </tr> 
+            <tr> 
+                <td class="hdr">Nom :</td> 
+                <td><input type=text id="txt_Nom">Boissonnet</td>
+            </tr> 
+            <tr> 
+                <td class="hdr">Date de début historique :</td> 
+                <td><input type=text id="txt_DateDebutHisto">27/06/2016</td>
+            </tr> 
+        </table> 
+    </fieldset> 
+    <br> 
+    <br> 
+    <button accesskey="F" type="submit" id="btn_Finish"><U>R</U>echercher</button> 
+    <button accesskey="A" type="submit" id="btn_Abort"><U>E</U>porter</button> 
+    <br> 
+    <br> 
+    <span id="spn_DataArea"></span> 
+</body> 
+</html>
